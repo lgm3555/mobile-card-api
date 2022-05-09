@@ -1,6 +1,8 @@
 package com.example.card.service;
 
 import com.example.card.domain.Board;
+import com.example.card.domain.response.BoardResult;
+import com.example.card.domain.reuqest.EditBoardParam;
 import com.example.card.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +24,15 @@ public class BoardService {
         return count;
     }
 
-    public List<Board> readBoards() {
+    public List<BoardResult> readBoards() {
         List<Board> boardList = boardRepository.findAll();
-        return boardList;
+        return boardList.stream().map(board -> BoardResult.of(board)).collect(Collectors.toList());
     }
 
-    public Board readBoard(Integer seq) {
+    public BoardResult readBoard(Integer seq) {
         Optional<Board> optionalBoard = boardRepository.findById(seq);
-        return optionalBoard.get();
+        Board board = optionalBoard.orElse(null);
+        return BoardResult.of(board);
     }
 
     public Board createBoard(Board requestBoard) {
@@ -37,10 +41,10 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public Board updateBoard(Integer seq, Board requestBoard) {
+    public Board updateBoard(Integer seq, EditBoardParam requestBoard) {
         Optional<Board> optionalBoard = boardRepository.findById(seq);
 
-        if (!optionalBoard.isPresent()) {
+        if (optionalBoard.isEmpty()) {
             throw new EntityNotFoundException("Member not present in the database");
         }
 
