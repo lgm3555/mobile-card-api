@@ -2,7 +2,6 @@ package com.example.card.controller;
 
 import com.example.card.domain.Board;
 import com.example.card.domain.response.BoardResult;
-import com.example.card.domain.reuqest.EditBoardParam;
 import com.example.card.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequestMapping("/board")
@@ -27,7 +27,7 @@ public class BoardController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path= {""})
-    public ResponseEntity<List<BoardResult>> readBoards(@PathVariable(required = false) Integer seq) {
+    public ResponseEntity<List<BoardResult>> readBoards() {
         List<BoardResult> boardList = boardService.readBoards();
         return ResponseEntity.ok(boardList);
     }
@@ -44,28 +44,13 @@ public class BoardController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path="/{seq}")
-    public ResponseEntity updateBoard(@PathVariable("seq") int seq,
-                                      @RequestBody EditBoardParam requestBoard) {
-        Board board = boardService.updateBoard(seq, requestBoard);
+    public ResponseEntity<BoardResult> updateBoard(@PathVariable("seq") Integer seq, @RequestBody Board requestBoard) {
+        BoardResult board = boardService.updateBoard(seq, requestBoard);
         return ResponseEntity.ok(board);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path="/{seq}")
-    public boolean deleteBoard(@RequestBody Board requestBoard) {
-
-//        Board board = boardService.readBoard(requestBoard.getSeq());
-/*
-        if (board.getPass().equals(requestBoard.getPass())) {
-            boardService.deleteBoard(requestBoard.getSeq());
-
-            if (boardService.readBoard(requestBoard.getSeq()) == null) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }*/
-        return false;
+    public void deleteBoard(@PathVariable("seq") Integer seq) {
+        boardService.deleteBoard(seq);
     }
 }

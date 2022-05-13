@@ -1,10 +1,7 @@
 package com.example.card.domain.response;
 
 import com.example.card.domain.Board;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
 @Value

@@ -1,9 +1,7 @@
 package com.example.card.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-
 
 import javax.persistence.*;
 
@@ -23,7 +21,16 @@ public class Board {
     private String id;
     private String pass;
     private String content;
-
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     private String regdate;
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "seq=" + seq +
+                ", id='" + id + '\'' +
+                ", pass='" + pass + '\'' +
+                ", content='" + content + '\'' +
+                ", regdate='" + regdate + '\'' +
+                '}';
+    }
 }

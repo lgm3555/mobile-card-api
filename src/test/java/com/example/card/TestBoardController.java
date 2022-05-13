@@ -23,19 +23,12 @@ public class TestBoardController {
 
     @Test
     public void testUpdateBoard() throws Exception {
-        Map<String, String> map = new HashMap() {{
-            put("seq", "4");
-            put("id", "blackdog");
-            put("pass", "1234");
-            put("content", "축하드립니다.!");
-        }};
 
-        mockMvc.perform(put("/board")
+        mockMvc.perform(put("/board/5")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.format("{\"seq\":\"4\",\"id\":\"blackdog\",\"pass\":\"1234\",\"content\":\"축하드립니다.!\"}")))
+                .content(String.format("{\"pass\":\"12346\",\"content\":\"축하드립니다.!\"}")))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
-
 }
