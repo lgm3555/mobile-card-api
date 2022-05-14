@@ -7,10 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 @RequestMapping("/like")
 @RestController
@@ -26,10 +25,15 @@ public class LikeController {
         return ResponseEntity.ok(likeService.countLike());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<LikeResult> readLike(@RequestBody Like requestLike) {
-        LOGGER.info(requestLike.getDeviceid());
-        LikeResult like = likeService.readLike(requestLike);
+    @RequestMapping(method = RequestMethod.GET, path="/{deviceId}")
+    public ResponseEntity<LikeResult> readLike(@PathVariable() String deviceId) {
+        LikeResult like = likeService.readLike(deviceId);
+        return ResponseEntity.ok(like);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path="")
+    public ResponseEntity createLike(@RequestBody Like requestLike) {
+        Like like = likeService.createLike(requestLike);
         return ResponseEntity.ok(like);
     }
 }

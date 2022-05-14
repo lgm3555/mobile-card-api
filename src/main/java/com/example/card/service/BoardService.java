@@ -42,7 +42,6 @@ public class BoardService {
     }
 
     public Board createBoard(Board requestBoard) {
-        LOGGER.info(requestBoard.toString());
         Board board = new Board();
         BeanUtils.copyProperties(requestBoard, board);
         return boardRepository.save(requestBoard);
