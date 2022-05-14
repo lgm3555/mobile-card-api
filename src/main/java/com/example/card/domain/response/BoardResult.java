@@ -4,6 +4,9 @@ import com.example.card.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Value
 @AllArgsConstructor
 public class BoardResult {
@@ -12,7 +15,7 @@ public class BoardResult {
     private String id;
     private String pass;
     private String content;
-    private String regdate;
+    private LocalDateTime regdate;
 
     public static BoardResult of(Board board) {
         return new BoardResult(board.getSeq(), board.getId(), board.getPass(), board.getContent(), board.getRegdate());

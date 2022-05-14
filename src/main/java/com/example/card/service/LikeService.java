@@ -14,6 +14,11 @@ public class LikeService {
 
     private final LikeRepository likeRepository;
 
+    public Long countLike() {
+        Long count = likeRepository.count();
+        return count;
+    }
+
     public LikeResult readLike(Like requestLike) {
         Optional<Like> optionalLike = likeRepository.findById(requestLike.getDeviceid());
         Like like = optionalLike.orElse(null);

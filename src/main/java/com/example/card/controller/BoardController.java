@@ -39,6 +39,7 @@ public class BoardController {
 
     @RequestMapping(method = RequestMethod.POST, path="")
     public ResponseEntity createBoard(@RequestBody Board requestBoard) {
+        LOGGER.error(requestBoard.toString());
         Board board = boardService.createBoard(requestBoard);
         return ResponseEntity.ok(board);
     }

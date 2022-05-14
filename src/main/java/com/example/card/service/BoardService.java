@@ -42,43 +42,20 @@ public class BoardService {
     }
 
     public Board createBoard(Board requestBoard) {
+        LOGGER.info(requestBoard.toString());
         Board board = new Board();
         BeanUtils.copyProperties(requestBoard, board);
-        return boardRepository.save(board);
+        return boardRepository.save(requestBoard);
     }
 
     public BoardResult updateBoard(Integer seq, Board requestBoard) {
-        Board board = updateParamCheck(seq, requestBoard);
-        return BoardResult.of(boardRepository.save(board));
+        LOGGER.info(requestBoard.toString());
+        requestBoard.setSeq(seq);
+        LOGGER.info(requestBoard.toString());
+        return BoardResult.of(boardRepository.save(requestBoard));
     }
 
     public void deleteBoard(Integer seq) {
         boardRepository.deleteById(seq);
-    }
-
-    public Board updateParamCheck(Integer seq, Board requestBoard) {
-        Optional<Board> board = boardRepository.findById(seq);
-
-        if (board.isEmpty()) {
-            throw new EntityNotFoundException("수정 데이터가 없습니다.");
-        }
-
-        if (!board.get().getPass().equals(requestBoard.getPass())) {
-            throw new HTTPStatusException(HttpStatus.BAD_REQUEST, "E01", "패스워드가 일치하지 않습니다.");
-        }
-
-        if (requestBoard.getId() != null && !(requestBoard.getId()).isEmpty()) {
-            board.get().setId(requestBoard.getId());
-        }
-
-        if (requestBoard.getPass() != null && !(requestBoard.getPass()).isEmpty()) {
-            board.get().setPass(requestBoard.getPass());
-        }
-
-        if (requestBoard.getContent() != null && !(requestBoard.getContent()).isEmpty()) {
-            board.get().setContent(requestBoard.getContent());
-        }
-
-        return board.get();
     }
 }

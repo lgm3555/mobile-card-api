@@ -1,9 +1,15 @@
 package com.example.card.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * tBoard 테이블 Model
@@ -11,6 +17,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "tboard")
 public class Board {
 
@@ -21,7 +29,12 @@ public class Board {
     private String id;
     private String pass;
     private String content;
-    private String regdate;
+    private LocalDateTime regdate;
+
+    @PreUpdate
+    public void initPresist() {
+        this.regdate = LocalDateTime.now();
+    }
 
     @Override
     public String toString() {

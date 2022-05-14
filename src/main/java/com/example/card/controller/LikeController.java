@@ -21,11 +21,15 @@ public class LikeController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
 
+    @RequestMapping(method = RequestMethod.GET, path="/cnt")
+    public ResponseEntity countLike() {
+        return ResponseEntity.ok(likeService.countLike());
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<LikeResult> readLike(@RequestBody Like requestLike) {
         LOGGER.info(requestLike.getDeviceid());
         LikeResult like = likeService.readLike(requestLike);
         return ResponseEntity.ok(like);
     }
-
 }
